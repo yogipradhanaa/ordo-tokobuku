@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <h2>Books List</h2>
+        <h2 class="mb-3">📚 Books List</h2>
         <a href="{{ route('books.create') }}" class="btn btn-success mb-3">ADD BOOK</a>
 
         <table class="table table-bordered" id="books-table">
@@ -21,6 +21,8 @@
                     <th>Cover</th>
                     <th>Name</th>
                     <th>Author</th>
+                    <th>Price</th>
+                    <th>Stock</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -44,6 +46,10 @@
                     { data: 'cover_image', name: 'cover_image', orderable: false, searchable: false },
                     { data: 'name', name: 'name' },
                     { data: 'author', name: 'author' },
+                    { data: 'price', name: 'price', render: function(data) {
+                        return 'Rp ' + new Intl.NumberFormat('id-ID').format(data);
+                    }},
+                    { data: 'stock', name: 'stock' },
                     { data: 'is_published', name: 'is_published' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
@@ -58,8 +64,9 @@
                         type: 'DELETE',
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         success: function (response) {
-                            alert(response.success);
-                            $('#books-table').DataTable().ajax.reload();
+                            window.location.reload()
+                            // alert(response.success);
+                            // $('#books-table').DataTable().ajax.reload();
                         }
                     });
                 }

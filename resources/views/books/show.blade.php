@@ -26,6 +26,17 @@
                         <p class="tmt-3">
                             {!! $book->description !!}
                         </p>
+
+                        <!-- Tambahan Price & Stock -->
+                        <hr>
+                        <div>
+                            <strong>Price:</strong> <span class="text-success">Rp {{ number_format($book->price, 0, ',', '.') }}</span>
+                        </div>
+                        <div>
+                            <strong>Stock:</strong> <span class="text-info">{{ $book->stock }} available</span>
+                        </div>
+
+                        <hr>
                         <div class="text-right">
                             <i> Author: {{ $book->author }}</i>
                         </div>

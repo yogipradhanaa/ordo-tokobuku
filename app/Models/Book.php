@@ -13,6 +13,8 @@ class Book extends Model
         'cover_image',
         'name',
         'author',
+        'price',
+        'stock',
         'description',
         'is_published',  
     ];
