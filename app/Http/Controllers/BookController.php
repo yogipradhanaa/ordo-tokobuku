@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewBookMail;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -40,10 +42,7 @@ class BookController extends Controller
 
         return view('books.index', compact('books'));
     }
-    public function create()
-    {
-        return view('books.create');
-    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -55,10 +54,14 @@ class BookController extends Controller
             'description' => ['required', 'string'],
             'is_published' => ['required', 'boolean'],
         ]);
-
+    
         $validatedData['cover_image'] = $request->file('cover_image')->store('images', 'public');
-        Book::create($validatedData);
-
+    
+        $book = Book::create($validatedData);
+    
+        // Untuk Mengirim Pesan ke Email
+        Mail::to('yogiklamza@gmail.com')->send(new NewBookMail($book));
+    
         return to_route('books.index')->with('success', 'Book created successfully');
     }
     public function show(Book $book)
@@ -93,6 +96,11 @@ class BookController extends Controller
 
         return to_route('books.index')->with('success', 'Book updated successfully');
     }
+    public function create()
+    {
+        return view('books.create');
+    }
+
     public function destroy(Book $book)
     {
         // delete image
@@ -100,6 +108,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return back()->with('success', 'Book deleted successfully');
+        return view('books.index')->with('success', 'Book deleted successfully');
     }
 }
