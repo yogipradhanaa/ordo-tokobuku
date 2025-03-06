@@ -55,12 +55,10 @@ class AuthenticationController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return back()->withErrors([
-                'email' => 'Your provided credentials do not match in our records.',
-            ])->onlyInput('email');
+                'email' => 'Your provided credentials do not match in our records.', ])->onlyInput('email');
         }
 
-        return to_route('dashboard')
-            ->withSuccess('You have successfully logged in!');
+        return to_route('dashboard')->withSuccess('You have successfully logged in!');
     }
 
     /**
