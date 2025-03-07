@@ -21,5 +21,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('books-data', [BookController::class, 'getData'])->name('books.data');
 });
 
-    
+
 

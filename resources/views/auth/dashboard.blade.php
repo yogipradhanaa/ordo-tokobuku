@@ -26,9 +26,6 @@
                         <i class="fas fa-book"></i> View Books
                     </a>
 
-                    <a href="{{ route('logout') }}" class="btn btn-outline-danger ms-2">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
                 </div>
             </div>
         </div>

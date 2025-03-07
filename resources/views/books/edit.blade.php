@@ -1,139 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Book</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-</head>
+@section('title', 'Edit Book')
 
-<body style="background: lightgray">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        Edit Book
-                    </div>
-
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('books.update', $book->id) }}" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="form-group">
-                                <label for="cover_image" class="font-weight-bold">Cover Image</label>
-                                <div>
-                                    <input id="cover_image" type="file" class="form-control @error('cover_image') is-invalid @enderror" name="cover_image">
-    
-                                    @error('cover_image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="name" class="font-weight-bold">Name</label>
-                                <div>
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $book->name) }}" autocomplete="name" autofocus>
-    
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="author" class="font-weight-bold">Author</label>
-                                <div>
-                                    <input id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" value="{{ old('author', $book->author) }}" autocomplete="author">
-    
-                                    @error('author')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="description" class="font-weight-bold">Description</label>
-                                <div>
-                                    <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description">{!! old('description', $book->description) !!}</textarea>
-                                    @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Tambahan Price -->
-                            <div class="form-group">
-                                <label for="price" class="font-weight-bold">Price (RP)</label>
-                                <div>
-                                    <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price', $book->price) }}" required min="0" step="0.01">
-                                    @error('price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Tambahan Stock -->
-                            <div class="form-group">
-                                <label for="stock" class="font-weight-bold">Stock</label>
-                                <div>
-                                    <input id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock', $book->stock) }}" required min="0">
-                                    @error('stock')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="is_published" class="font-weight-bold">Status</label>
-                                <div>
-                                    <select id="is_published" class="form-control" name="is_published">
-                                        <option value="1" @selected(old('is_published', $book->is_published == 1))>Published</option>
-                                        <option value="0" @selected(old('is_published', $book->is_published == 0))>Not Published</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-0">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        Update Book
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
+@push('scripts')
     <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('description');
     </script>
-</body>
+@endpush
 
-</html>
+@section('content')
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Edit Book</div>
+                <div class="card-body">
+                    <form method="POST" action="{{ route('books.update', $book->id) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Cover Image</label>
+                            <input type="file" class="form-control @error('cover_image') is-invalid @enderror"
+                                name="cover_image">
+                            @error('cover_image')<spa
+                            n    class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                                value="{{ old('name', $book->name) }}">
+                            @error('name')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Author</label>
+                            <input type="text" class="form-control @error('author') is-invalid @enderror" name="author"
+                                value="{{ old('author', $book->author) }}">
+                            @error('author')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror"
+                                name="description">{!! old('description', $book->description) !!}</textarea>
+                            @error('description')<spa
+                               n             class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Price (RP)</label>
+                            <input type="number" class="form-control @error('price') is-invalid @enderror" name="price"
+                                value="{{ old('price', $book->price) }}" min="0" step="0.01">
+                            @error('price')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Stock</label>
+                            <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock"
+                                value="{{ old('stock', $book->stock) }}" min="0">
+                            @error('stock')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Status</label>
+                            <select class="form-control" name="is_published">
+                                <option value="1" @selected(old('is_published', $book->is_published == 1))>Published</option>
+                                <option value="0" @selected(old('is_published', $book->is_published == 0))>Not Published
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Update Book</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

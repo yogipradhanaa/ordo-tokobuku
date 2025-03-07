@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Books Data</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+@section('title', 'Add New Book')
+
+@push('styles')
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-</head>
+@endpush
 
-<body style="background: lightgray">
+@section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -27,8 +22,8 @@
                             <div class="form-group">
                                 <label for="cover_image" class="font-weight-bold">Cover Image</label>
                                 <div>
-                                    <input id="cover_image" type="file" class="form-control @error('cover_image') is-invalid @enderror" name="cover_image">
-                                  
+                                    <input id="cover_image" type="file"
+                                        class="form-control @error('cover_image') is-invalid @enderror" name="cover_image">
                                     @error('cover_image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -40,8 +35,8 @@
                             <div class="form-group">
                                 <label for="name" class="font-weight-bold">Name</label>
                                 <div>
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
-                                   
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                        name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -53,8 +48,9 @@
                             <div class="form-group">
                                 <label for="author" class="font-weight-bold">Author</label>
                                 <div>
-                                    <input id="author" type="text" class="form-control @error('author') is-invalid @enderror" name="author" value="{{ old('author') }}" autocomplete="author">
-
+                                    <input id="author" type="text"
+                                        class="form-control @error('author') is-invalid @enderror" name="author"
+                                        value="{{ old('author') }}" autocomplete="author">
                                     @error('author')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -66,7 +62,9 @@
                             <div class="form-group">
                                 <label for="description" class="font-weight-bold">Description</label>
                                 <div>
-                                    <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description') }}</textarea>
+                                    <textarea id="description"
+                                        class="form-control @error('description') is-invalid @enderror"
+                                        name="description">{{ old('description') }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -75,11 +73,12 @@
                                 </div>
                             </div>
 
-                            <!-- Tambahan Price -->
                             <div class="form-group">
                                 <label for="price" class="font-weight-bold">Price (RP)</label>
                                 <div>
-                                    <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required min="0" step="0.01">
+                                    <input id="price" type="number"
+                                        class="form-control @error('price') is-invalid @enderror" name="price"
+                                        value="{{ old('price') }}" required min="0" step="0.01">
                                     @error('price')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -88,11 +87,12 @@
                                 </div>
                             </div>
 
-                            <!-- Tambahan Stock -->
                             <div class="form-group">
                                 <label for="stock" class="font-weight-bold">Stock</label>
                                 <div>
-                                    <input id="stock" type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}" required min="0">
+                                    <input id="stock" type="number"
+                                        class="form-control @error('stock') is-invalid @enderror" name="stock"
+                                        value="{{ old('stock') }}" required min="0">
                                     @error('stock')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -111,12 +111,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb-0">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        Submit
-                                    </button>
-                                </div>
+                            <div class="form-group mb-0 text-center">
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -124,16 +122,12 @@
             </div>
         </div>
     </div>
+@endsection
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-   
+@push('scripts')
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('description');
     </script>
-
-</body>
-
-</html>
+@endpush

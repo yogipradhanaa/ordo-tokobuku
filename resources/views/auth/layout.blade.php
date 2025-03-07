@@ -12,8 +12,9 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">Home</a>
-            <a class="navbar-brand" href="{{ route('books.index') }}">Books</a>
+            <a class="navbar-brand" href="{{ url('/') }}">Dashboard</a>
+            <a class="navbar-brand" href="{{ url('/books') }}">Books</a>
+            <a class="navbar-brand" href="{{ url('/category') }}">Category</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,7 +48,7 @@
     </nav>
 
     <div class="container">
-        @yield('content')
+        @yield(section: 'content')
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
