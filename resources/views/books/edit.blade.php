@@ -23,8 +23,7 @@
                             <label class="font-weight-bold">Cover Image</label>
                             <input type="file" class="form-control @error('cover_image') is-invalid @enderror"
                                 name="cover_image">
-                            @error('cover_image')<spa
-                            n    class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                            @error('cover_image')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
                         </div>
 
                         <div class="form-group">
@@ -42,11 +41,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="font-weight-bold">Code Book</label>
+                            <select class="form-control @error('code_book') is-invalid @enderror" name="code_book">
+                                <option value="FIK" @selected(old('code_book', $book->code_book) == 'FIK')>FIK (Fiksi)</option>
+                                <option value="NFIK" @selected(old('code_book', $book->code_book) == 'NFIK')>NFIK (Non Fiksi)</option>
+                            </select>
+                            @error('code_book')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                        </div>
+
+                        <div class="form-group">
                             <label class="font-weight-bold">Description</label>
                             <textarea class="form-control @error('description') is-invalid @enderror"
                                 name="description">{!! old('description', $book->description) !!}</textarea>
-                            @error('description')<spa
-                               n             class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
+                            @error('description')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
                         </div>
 
                         <div class="form-group">

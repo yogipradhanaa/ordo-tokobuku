@@ -12,7 +12,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::paginate();
+        $books = Book::select('id', 'cover_image', 'name', 'author', 'code_book', 'price', 'stock', 'is_published')->paginate();
 
         return response()->json($books);
     }
@@ -20,13 +20,14 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'cover_image'   => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'name'          => ['required', 'string', 'max:255'],
-            'author'        => ['required', 'string', 'max:255'],
-            'price'         => 'required|numeric|min:0',
-            'stock'         => 'required|integer|min:0',
-            'description'   => ['required', 'string'],
-            'is_published'  => ['required', 'boolean'],
+            'cover_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'name' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'code_book' => ['required, in:FIK,NFIK'],
+            'price' => ['required|numeric|min:0'],
+            'stock' => ['required|integer|min:0'],
+            'description' => ['required', 'string'],
+            'is_published' => ['required', 'boolean'],
         ]);
 
         $validatedData['cover_image'] = $request->file('cover_image')->store('images', 'public');
@@ -43,15 +44,16 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validatedData = $request->validate([
-            'cover_image'   => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-            'name'          => ['required', 'string', 'max:255'],
-            'author'        => ['required', 'string', 'max:255'],
-            'price'         => 'required|numeric|min:0',
-            'stock'         => 'required|integer|min:0',
-            'description'   => ['required', 'string'],
-            'is_published'  => ['required', 'boolean'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'name' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'code_book' => ['required, in:FIK,NFIK'],
+            'price' => ['required, numeric, min:0'],
+            'stock' => ['required, integer, min:0'],
+            'description' => ['required', 'string'],
+            'is_published' => ['required', 'boolean'],
         ]);
-        
+
         if ($request->hasFile('cover_image')) {
             // delete old image
             Storage::delete('public/' . $book->cover_image);

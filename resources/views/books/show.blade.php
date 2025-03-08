@@ -25,6 +25,10 @@
                     <div>
                         <strong>Stock:</strong> <span class="text-info">{{ $book->stock }} available</span>
                     </div>
+                    <div>
+                        <strong>Code Book:</strong> 
+                        <span class="text-warning">{{ $book->code_book }}</span>
+                    </div>
 
                     <hr>
                     <div class="text-right">
