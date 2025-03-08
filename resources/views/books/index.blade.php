@@ -18,7 +18,6 @@
                     <th>Cover</th>
                     <th>Name</th>
                     <th>Author</th>
-                    <th>Code Book</th>
                     <th>Price</th>
                     <th>Stock</th>
                     <th>Status</th>
@@ -44,7 +43,6 @@
                     { data: 'cover_image', name: 'cover_image', orderable: false, searchable: false },
                     { data: 'name', name: 'name' },
                     { data: 'author', name: 'author' },
-                    { data: 'code_book', name: 'code_book' },
                     {
                         data: 'price', name: 'price', render: function (data) {
                             return 'Rp ' + new Intl.NumberFormat('id-ID').format(data);

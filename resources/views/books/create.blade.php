@@ -48,20 +48,7 @@
                                     </span>
                                 @enderror
                             </div>
-
-                            <div class="form-group">
-                                <label for="code_book" class="font-weight-bold">Code Book</label>
-                                <select id="code_book" class="form-control @error('code_book') is-invalid @enderror" name="code_book">
-                                    <option value="FIK" {{ old('code_book') == 'FIK' ? 'selected' : '' }}>FIK - Fiksi</option>
-                                    <option value="NFIK" {{ old('code_book') == 'NFIK' ? 'selected' : '' }}>NFIK - Non Fiksi</option>
-                                </select>
-                                @error('code_book')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
+                            
                             <div class="form-group">
                                 <label for="description" class="font-weight-bold">Description</label>
                                 <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description">{{ old('description') }}</textarea>

@@ -39,16 +39,7 @@
                                 value="{{ old('author', $book->author) }}">
                             @error('author')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
                         </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Code Book</label>
-                            <select class="form-control @error('code_book') is-invalid @enderror" name="code_book">
-                                <option value="FIK" @selected(old('code_book', $book->code_book) == 'FIK')>FIK (Fiksi)</option>
-                                <option value="NFIK" @selected(old('code_book', $book->code_book) == 'NFIK')>NFIK (Non Fiksi)</option>
-                            </select>
-                            @error('code_book')<span class="invalid-feedback"><strong>{{ $message }}</strong></span>@enderror
-                        </div>
-
+                        
                         <div class="form-group">
                             <label class="font-weight-bold">Description</label>
                             <textarea class="form-control @error('description') is-invalid @enderror"
