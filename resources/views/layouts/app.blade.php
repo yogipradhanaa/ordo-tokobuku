@@ -66,7 +66,7 @@ body {
         <ul>
             <li><a href="{{ url('/') }}">Dashboard</a></li>
             <li><a href="{{ url('/books') }}">Books</a></li>
-            <li><a href="{{ url('/category') }}">Category</a></li>
+            <li><a href="{{ url('/categories') }}">Categories</a></li>
         </ul>
     </nav>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthenticationController;
@@ -19,6 +20,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('books', BookController::class);
     Route::get('/books/data', [BookController::class, 'index'])->name('books.data');
     Route::get('books-data', [BookController::class, 'getData'])->name('books.data');
+
+    Route::resource('categories', CategoryController::class);
+    Route::get('categories-list', [CategoryController::class, 'getCategories'])->name('categories.getCategories');
+    Route::get('/categories/data', [CategoryController::class, 'getData'])->name('categories.data');
+
 });
 
 

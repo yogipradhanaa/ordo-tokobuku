@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewBookMail;
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class BookController extends Controller
-
 {
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $books = Book::select(['id', 'cover_image', 'name', 'author', 'price', 'stock', 'is_published']);
+            $books = Book::with('category')->select(['id', 'cover_image', 'name', 'author', 'price', 'stock', 'is_published', 'category_id']);
 
             return DataTables::of($books)
                 ->addIndexColumn()
@@ -24,6 +24,9 @@ class BookController extends Controller
                 })
                 ->editColumn('is_published', function ($book) {
                     return $book->is_published ? 'Published' : 'Draft';
+                })
+                ->addColumn('category', function ($book) {
+                    return $book->category ? $book->category->name : 'No Category';
                 })
                 ->addColumn('action', function ($book) {
                     return '<a href="' . route('books.show', $book->id) . '" class="btn btn-dark btn-sm"><i class="fas fa-eye"></i></a>
@@ -36,11 +39,17 @@ class BookController extends Controller
 
         return response()->json(['error' => 'Unauthorized'], 403);
     }
+
     public function index()
     {
-        $books = Book::paginate(10);
-
+        $books = Book::with('category')->paginate(10);
         return view('books.index', compact('books'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('books.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -53,25 +62,29 @@ class BookController extends Controller
             'stock' => ['required', 'integer', 'min:0'],
             'description' => ['required', 'string'],
             'is_published' => ['required', 'boolean'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         $validatedData['cover_image'] = $request->file('cover_image')->store('images', 'public');
 
         $book = Book::create($validatedData);
 
-        // Untuk Mengirim Pesan ke Email
         Mail::to('yogiklamza@gmail.com')->send(new NewBookMail($book));
 
         return to_route('books.index')->with('success', 'Book created successfully');
     }
+
     public function show(Book $book)
     {
         return view('books.show', compact('book'));
     }
+
     public function edit(Book $book)
     {
-        return view('books.edit', compact('book'));
+        $categories = Category::all();
+        return view('books.edit', compact('book', 'categories'));
     }
+
     public function update(Request $request, Book $book)
     {
         $validatedData = $request->validate([
@@ -82,13 +95,11 @@ class BookController extends Controller
             'stock' => 'required|integer|min:0',
             'description' => ['required', 'string'],
             'is_published' => ['required', 'boolean'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         if ($request->hasFile('cover_image')) {
-            // delete old image
             Storage::delete('public/' . $book->cover_image);
-
-            // store new image
             $validatedData['cover_image'] = $request->file('cover_image')->store('images', 'public');
         }
 
@@ -96,18 +107,14 @@ class BookController extends Controller
 
         return to_route('books.index')->with('success', 'Book updated successfully');
     }
-    public function create()
-    {
-        return view('books.create');
-    }
-
     public function destroy(Book $book)
-    {
-        // delete image
+{
+    if ($book->cover_image) {
         Storage::delete('public/' . $book->cover_image);
-
-        $book->delete();
-
-        return view('books.index')->with('success', 'Book deleted successfully');
     }
+
+    $book->delete();
+
+    return response()->json(['success' => 'Book deleted successfully.']);
+}
 }
