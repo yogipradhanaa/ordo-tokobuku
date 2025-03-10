@@ -12,7 +12,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::select('id', 'cover_image', 'name', 'author', 'code_book', 'price', 'stock', 'is_published')->paginate();
+        $books = Book::select('id', 'cover_image', 'name', 'author', 'code_book', 'price', 'stock', 'is_published','category_id')->paginate();
 
         return response()->json($books);
     }
@@ -28,6 +28,7 @@ class BookController extends Controller
             'stock' => ['required|integer|min:0'],
             'description' => ['required', 'string'],
             'is_published' => ['required', 'boolean'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         $validatedData['cover_image'] = $request->file('cover_image')->store('images', 'public');
@@ -52,6 +53,7 @@ class BookController extends Controller
             'stock' => ['required, integer, min:0'],
             'description' => ['required', 'string'],
             'is_published' => ['required', 'boolean'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         if ($request->hasFile('cover_image')) {

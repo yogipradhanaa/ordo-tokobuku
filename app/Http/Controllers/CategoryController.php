@@ -7,29 +7,33 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    
-    // Menampilkan halaman kategori dengan data kategori dari database
     public function index()
     {
         $categories = Category::all();
         return view('categories.index', compact('categories'));
     }
 
-    // Menyimpan kategori baru ke dalam database
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:categories|max:255'
-        ]);
-
+        $request->validate(['name' => ['required', 'string', 'max:255']]);
         Category::create(['name' => $request->name]);
 
-        return redirect()->back()->with('success', 'Category added successfully!');
+        return response()->json(['success' => 'Category added successfully']);
     }
 
-    // Mengambil semua kategori dalam format JSON (bisa dipakai untuk AJAX)
-    public function getCategories()
+    public function update(Request $request, $id)
     {
-        return response()->json(Category::all());
+        $category = Category::findOrFail($id);
+        $category->update(['name' => $request->name]);
+
+        return response()->json(['success' => 'Category updated successfully']);
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete(); // Soft delete
+        return response()->json(['success' => 'Category deleted successfully!']);
     }
 }
+

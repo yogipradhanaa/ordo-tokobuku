@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/books/data', [BookController::class, 'index'])->name('books.data');
     Route::get('books-data', [BookController::class, 'getData'])->name('books.data');
 
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class)->except(['show']);
     Route::get('categories-list', [CategoryController::class, 'getCategories'])->name('categories.getCategories');
     Route::get('/categories/data', [CategoryController::class, 'getData'])->name('categories.data');
 

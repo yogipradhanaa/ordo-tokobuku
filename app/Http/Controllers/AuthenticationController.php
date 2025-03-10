@@ -10,17 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
-    /**
-     * Display a registration form.
-     */
+
     public function register()
     {
         return view('auth.register');
     }
 
-    /**
-     * Store a new user.
-     */
+   
     public function store(Request $request)
     {
         $validatedData = $request->validate([
